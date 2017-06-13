@@ -19,7 +19,5 @@ setup.php
 /app/log/*.log
 /themes/default/css/local.css
 /themes/default/views/bundles/inspector_info.php
-/support/scripts/*.php
-/support/scripts/*.sh
 /pawtucket/app/tmp/*
 
