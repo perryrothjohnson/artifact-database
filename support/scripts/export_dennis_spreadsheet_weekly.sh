@@ -22,5 +22,5 @@ cd /var/www/html/support
 # convert csv to xlsx file, then copy to Dropbox/CSC In-house/Artifact Documents/
 echo ''
 echo '...converting CSV file to XLSX file, moving to Dropbox'
-~/bin/csv_to_xlsx.py
+/var/www/html/support/scripts/csv_to_xlsx.py
 
