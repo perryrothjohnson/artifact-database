@@ -1,8 +1,8 @@
 CollectiveAccess README
 -----------------------
 
-[Providence (back-end) v1.7](https://github.com/collectiveaccess/providence)
-[Pawtucket2 (front-end) v1.7](https://github.com/collectiveaccess/pawtucket2)
+[Providence (back-end) v1.7](https://github.com/collectiveaccess/providence)  
+[Pawtucket2 (front-end) v1.7](https://github.com/collectiveaccess/pawtucket2)  
 
 Providence is the "back-end" cataloging component of CollectiveAccess, a web-based suite of applications providing a framework for management, description, and discovery of complex digital and physical collections.  Providence is highly configurable and supports a variety of metadata standards, data types, and media formats.  
 
