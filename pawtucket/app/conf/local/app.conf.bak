@@ -1,0 +1,12 @@
+### note: pawtucket doesn't override app/conf/app.conf
+###       with this local file (app/conf/local/app.conf)
+###       but instead overrides with the theme conf file
+###       (themes/csc/conf/app.conf) ...so go edit that file instead!
+###
+### update: this may because this file had the wrong permissions
+###         (group was 'perry' instead of 'www-data', so the server
+###         didn't have access to this file)
+### update2: apparently the theme's app.conf overrides the main app.conf
+###          for pawtucket
+###          ref: http://docs.collectiveaccess.org/wiki/Pawtucket_Application_Configuration#The_app.conf_configuration_file
+

@@ -1,0 +1,443 @@
+# don't edit this file, edit the one in themes/csc/conf instead!
+
+
+
+#                          _       _           _           _                               __
+#                         | |     (_)         | |         (_)                             / _|
+#  ___  ___  __ _ _ __ ___| |__    _ _ __   __| | _____  ___ _ __   __ _   ___ ___  _ __ | |_
+# / __|/ _ \/ _` | '__/ __| '_ \  | | '_ \ / _` |/ _ \ \/ / | '_ \ / _` | / __/ _ \| '_ \|  _|
+# \__ \  __/ (_| | | | (__| | | | | | | | | (_| |  __/>  <| | | | | (_| || (_| (_) | | | | |
+# |___/\___|\__,_|_|  \___|_| |_| |_|_| |_|\__,_|\___/_/\_\_|_| |_|\__, (_)___\___/|_| |_|_|
+#                            ______                                __/ |
+#                            |______|                              |___/
+#
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Pawtucket 2.0
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Search indexing configuration file
+#
+# Info @ http://docs.collectiveaccess.org/wiki/Pawtucket2:Configuration
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Defines rules for indexing records for search
+# NOTE: This file should usually match the one used in your Providence configuration.
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+# Field level options
+#
+#	STORE 			 				(forces value to be stored in index, if possible; this can speed display of the content in a search but may slow down indexing and increases index size)
+#	DONT_TOKENIZE	 				(indexes value as-is without tokenization)
+#	DONT_INCLUDE_IN_SEARCH_FORM 	(causes field to not be includable in user-defined search forms)
+#	BOOST							(numeric "boost" value to index field with; higher values will cause search hits on the boosted field to count for more when sorting by relevance)
+#	INDEX_AS_IDNO					(causes value to be indexed with various permutations for flexible retrieval as a record identifer)
+#	INDEX_ANCESTORS					(enables hierarchical indexing for field, assuming it is in an hierarchical table, resulting in all values for this field in 
+#									 records above the subject in the hierarchy being indexing against the subject)
+#	INDEX_ANCESTORS_START_AT_LEVEL  (forces hierarchical indexing to start X levels down from the root. This allows you to omit the very highest, and least selective, levels of
+#									 the hierarchy when indexing. If omitted indexing starts from the hierarchy root.)
+#	INDEX_ANCESTORS_MAX_NUMBER_OF_LEVELS	(sets the maximum number of levels above the subject to be indexed. If omitted all levels of the hierarchy above the subject
+#											 are indexed.)
+#	INDEX_ANCESTORS_AS_PATH_WITH_DELIMITER	(sets a delimiter to place between each level of the hierarchy prior to indexing the entire hierarchy path above the subject. This is 
+#											 useful when you want to treat the hierarchy path as an identifier)
+#
+#
+# Special fields (always start with underscore character):
+#	_metadata		(indexes attached ca_attribute_values; you can only specify this for the subject table of an index)
+#
+#	_count			(embeds the number of related rows for a given table in the index; you can only specify this for non-subject tables; the field is named 
+#					 <table_name>_count - for example: object_representations_count for table 'object_representations'; we need this so we can find rows that have, or 
+#					 don't have, related rows in a given table. Specifically we need this to implement "show only objects with media" functionality since we can't just
+#					 do an INNER JOIN in Lucene as we did in the old SQL-based search engine)
+#					 
+# Access point are "virtual fields" for use in searches. They can be employed in three ways:
+#	(1) as simple aliases for individual fields. For example, if you wanted to enabled searches on object synonym using objsyn like so: 
+#				objsyn:Volkswagen
+#		then you'd simply define 'objsyn' to be an access point to objects.synonym
+#
+#	(2) as aliases for bundles of fields. If an access point is defined to include several fields, then a search on the access point will search all of the included fields at the same time.
+#
+# Note that all fields included in an access point must be included in the search index - they must appear in the "fields" list in other words. All indexed fields automatically
+# have access points created in the format tablename.fieldname (ex. objects.title); indexed metadata also have access points in the format tablename.md_<element_id> (ex. objects.md_5)
+#
+# When creating an access point you define an access point configuration associative list, then create a key for each access point.
+
+# ------------------------------------------------------------------------------------------------------------
+ca_objects = {
+	# ------------------------------------
+	_access_points = {
+		label = {
+			fields = [ca_object_labels.name],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		term_id = {
+			fields = [ca_list_item_labels.item_id],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		entity_id = {
+			fields = [ca_entity_labels.entity_id],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		place_id = {
+			fields = [ca_place_labels.place_id],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		occurrence_id = {
+			fields = [ca_occurrence_labels.occurrence_id],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		collection_id = {
+			fields = [ca_collection_labels.collection_id],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		entity = {
+			fields = [ca_entities.idno],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		place = {
+			fields = [ca_places.idno],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		occurrence = {
+			fields = [ca_occurrences.idno],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		collection = {
+			fields = [ca_collections.idno],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		children = {
+			fields = [ca_objects.parent_id],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		type_id = {
+			fields = [ca_objects.type_id],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		source_id = {
+			fields = [ca_objects.source_id],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		access = {
+			fields = [ca_objects.access],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		idno = {
+			fields = [ca_objects.idno],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		tags = {
+			fields = [ca_item_tags.tag]
+			name = _(User tags)
+		},
+		set = {
+			fields = [ca_sets.set_code],
+			boolean = OR,
+			name = _(Set code),
+			options = { DONT_STEM }
+		},
+		place = {
+			fields = [ca_place_labels.name],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		term = {
+			fields = [ca_list_item_labels.name_singular, ca_list_item_labels.name_plural],
+			boolean = OR,
+			name = _(Related term)
+		},
+		entity = {
+			fields = [ca_entity_labels.displayname],
+			options = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		filename = {
+			fields = [ca_object_representations.original_filename],
+			options = {  }	
+		},
+		mimetype = {
+			fields = [ca_object_representations.mimetype],
+			options = {  }	
+		},
+		md5 = {
+			fields = [ca_object_representations.md5],
+			options = {  }	
+		},
+		deaccession = {
+			fields = [ca_objects.is_deaccessioned],
+			options = { }
+		},
+		deaccessioned = {
+			fields = [ca_objects.is_deaccessioned],
+			options = { }
+		},
+		deaccessionDate = {
+			fields = [ca_objects.deaccession_date],
+			options = { }
+		}
+	},
+	# ------------------------------------
+	ca_objects = {
+		fields = {
+			_metadata = { },					# forces indexing of all attributes
+			parent_id = {STORE, DONT_TOKENIZE, DONT_INCLUDE_IN_SEARCH_FORM },
+			source_id = {},
+			lot_id = {},
+			idno = { STORE, DONT_TOKENIZE, INDEX_AS_IDNO, BOOST = 100 },	
+			type_id = { STORE, DONT_TOKENIZE },
+			source_id = { STORE, DONT_TOKENIZE },
+			hier_object_id = { STORE, DONT_TOKENIZE },
+			access = { STORE, DONT_TOKENIZE },
+			status = { STORE, DONT_TOKENIZE },
+			deleted = { STORE, DONT_TOKENIZE },
+			is_deaccessioned = { STORE, DONT_TOKENIZE },
+			deaccession_notes = {},
+			deaccession_date = {},
+			phase_3_exhibit_code = { STORE, DONT_TOKENIZE, INDEX_AS_IDNO, BOOST = 90 } # added to get exhibit codes to show up in search results
+		},
+		# Index idno's of related objects 
+		related = {
+			fields = {
+				idno = { STORE, DONT_TOKENIZE, INDEX_AS_IDNO, BOOST = 100 }
+			}
+		}
+	},
+	# ------------------------------------
+	ca_object_labels = {
+		key = object_id,
+		fields = {
+			name = { BOOST = 100, INDEX_ANCESTORS, INDEX_ANCESTORS_START_AT_LEVEL = 0, INDEX_ANCESTORS_MAX_NUMBER_OF_LEVELS = 4, INDEX_ANCESTORS_AS_PATH_WITH_DELIMITER = . },
+			name_sort = { DONT_INCLUDE_IN_SEARCH_FORM }
+		},
+		# Index names of related objects
+		related = {
+			fields = {
+				name = { BOOST = 100, INDEX_ANCESTORS, INDEX_ANCESTORS_START_AT_LEVEL = 0, INDEX_ANCESTORS_MAX_NUMBER_OF_LEVELS = 4, INDEX_ANCESTORS_AS_PATH_WITH_DELIMITER = . }
+			}
+		} 
+	},
+	# ------------------------------------
+	ca_entities = {
+		tables = {
+			collections = [ca_objects_x_entities],
+		},
+		fields = {
+			idno = { STORE, DONT_TOKENIZE, INDEX_AS_IDNO, BOOST = 100 }
+		}
+	},
+	# ------------------------------------
+	ca_entity_labels = {
+		tables = {
+			entities = [ca_objects_x_entities, ca_entities],
+			annotations = [ca_objects_x_object_representations, ca_object_representations, ca_representation_annotations, ca_representation_annotations_x_entities, ca_entities]
+		},
+		fields = {
+			entity_id = { DONT_INCLUDE_IN_SEARCH_FORM },
+			displayname = {},
+			forename = {},
+			surname = {},
+			middlename = {}
+		}
+	},
+	# ------------------------------------
+	ca_places = {
+		tables = {
+			collections = [ca_objects_x_places],
+		},
+		fields = {
+			idno = { STORE, DONT_TOKENIZE, INDEX_AS_IDNO, BOOST = 100 }
+		}
+	},
+	# ------------------------------------
+	ca_place_labels = {
+		tables = {
+			places = [ca_objects_x_places, ca_places],
+			annotations = [ca_objects_x_object_representations, ca_object_representations, ca_representation_annotations, ca_representation_annotations_x_places, ca_places]
+		},
+		fields = {
+			place_id = { DONT_INCLUDE_IN_SEARCH_FORM },
+			name = { INDEX_ANCESTORS, INDEX_ANCESTORS_START_AT_LEVEL = 1, INDEX_ANCESTORS_MAX_NUMBER_OF_LEVELS = 3 }
+		}
+	},
+	# ------------------------------------
+	ca_occurrences = {
+		tables = {
+			collections = [ca_objects_x_occurrences],
+		},
+		fields = {
+			idno = { STORE, DONT_TOKENIZE, INDEX_AS_IDNO, BOOST = 100 }
+		}
+	},
+	# ------------------------------------
+	ca_occurrence_labels = {
+		tables = {
+			occurrences = [ca_objects_x_occurrences, ca_occurrences],
+			annotations = [ca_objects_x_object_representations, ca_object_representations, ca_representation_annotations, ca_representation_annotations_x_occurrences, ca_occurrences]
+		},
+		fields = {
+			occurrence_id = { DONT_INCLUDE_IN_SEARCH_FORM },
+			name = {}
+		}
+	},
+	# ------------------------------------
+	ca_collections = {
+		tables = {
+			collections = [ca_objects_x_collections],
+		},
+		fields = {
+			idno = {STORE, DONT_TOKENIZE, INDEX_AS_IDNO, BOOST = 100 }
+		}
+	},
+	# ------------------------------------
+	ca_collection_labels = {
+		tables = {
+			collections = [ca_objects_x_collections, ca_collections],
+		},
+		fields = {
+			collection_id = { DONT_INCLUDE_IN_SEARCH_FORM },
+			name = {}
+		}
+	},
+	# ------------------------------------
+	ca_loan_labels = {
+		tables = {
+			loans = [ca_loans_x_objects, ca_loans],
+		},
+		fields = {
+			loan_id = { DONT_INCLUDE_IN_SEARCH_FORM },
+			name = {}
+		}
+	},
+	# ------------------------------------
+	ca_loans = {
+		tables = {
+			loans = [ca_loans_x_objects],
+		},
+		fields = {
+			loan_id = { DONT_INCLUDE_IN_SEARCH_FORM },
+			idno = { STORE, DONT_TOKENIZE, INDEX_AS_IDNO, BOOST = 100 }
+		}
+	},
+	# ------------------------------------
+	ca_list_items = {
+		tables = {
+			list_items = [ca_objects_x_vocabulary_terms],
+		},
+		fields = {
+			item_id = { DONT_INCLUDE_IN_SEARCH_FORM },
+			idno = { STORE, DONT_TOKENIZE, INDEX_AS_IDNO, BOOST = 100 }
+		}
+	},
+	# ------------------------------------
+	ca_list_item_labels = {
+		tables = {
+			vocabulary = [ca_objects_x_vocabulary_terms, ca_list_items],
+			annotations = [ca_objects_x_object_representations, ca_object_representations, ca_representation_annotations, ca_representation_annotations_x_vocabulary_terms, ca_list_items],
+			types = [ca_list_items, ca_list_item_labels],
+			sources = [ca_list_items, ca_list_item_labels]
+		},
+		keys = {
+			types = {
+				ca_objects = {
+					ca_list_items = {
+						left_key = type_id,
+						right_key = item_id
+					}
+				}
+			},
+			sources = {
+				ca_objects = {
+					ca_list_items = {
+						left_key = source_id,
+						right_key = item_id
+					}
+				}
+			}
+		}
+		fields = {
+			item_id = { DONT_INCLUDE_IN_SEARCH_FORM }, 
+			name_singular = {},
+			name_plural = {}
+		}
+	},
+	# ------------------------------------
+	ca_representation_annotation_labels = {
+		tables = {
+			vocabulary = [ca_objects_x_object_representations, ca_object_representations, ca_representation_annotations]
+		},
+		fields = {
+			name = {},
+			name_sort = { DONT_INCLUDE_IN_SEARCH_FORM }
+		}
+	},
+	# ------------------------------------
+	ca_item_tags = {
+		tables = {
+			tags = [ca_items_x_tags],
+		},
+		keys = {		# manually override joins with explicit setting
+			tags = {
+				ca_items_x_tags = {
+					ca_objects = {
+						left_key = row_id,
+						left_table_num = table_num,
+						right_key = object_id
+					}
+				}
+			}
+		},
+		fields = {
+			tag = { BOOST = 100 }
+		}
+	},
+	# ------------------------------------
+	ca_sets = {
+		tables = {
+			sets = [ca_set_items],
+		},
+		keys = {		# manually override joins with explicit setting
+			sets = {
+				ca_set_items = {
+					ca_objects = {
+						left_key = row_id,
+						left_table_num = table_num,
+						right_key = object_id
+					}
+				}
+			}
+		},
+		fields = {
+			set_code = { DONT_TOKENIZE },
+			set_id = { DONT_TOKENIZE, DONT_INCLUDE_IN_SEARCH_FORM }
+		}
+	},
+	# ------------------------------------
+	ca_storage_locations = {
+		tables = {
+			places = [ca_objects_x_storage_locations],
+		},
+		fields = {
+			idno = { STORE, DONT_TOKENIZE, INDEX_AS_IDNO, BOOST = 100 }
+		}
+	},
+	# ------------------------------------
+	ca_storage_location_labels = {
+		tables = {
+			places = [ca_objects_x_storage_locations, ca_storage_locations]
+		},
+		fields = {
+			location_id = { DONT_INCLUDE_IN_SEARCH_FORM },
+			name = { INDEX_ANCESTORS, INDEX_ANCESTORS_START_AT_LEVEL = 0, INDEX_ANCESTORS_MAX_NUMBER_OF_LEVELS = 10, INDEX_ANCESTORS_AS_PATH_WITH_DELIMITER = .}
+		}
+	},
+	# ------------------------------------
+	ca_object_representations = {
+		tables = {
+			reps = [ca_objects_x_object_representations]
+		},
+		fields = {
+			media_content = { DONT_INCLUDE_IN_SEARCH_FORM },
+			mimetype = { STORE, DONT_TOKENIZE },
+			md5 = { STORE, DONT_TOKENIZE },
+			original_filename = { STORE, DONT_TOKENIZE }
+		}
+	}
+	# ------------------------------------
+}
+
+
