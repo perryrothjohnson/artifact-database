@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="profile.xsd" useForConfiguration="1" base="base" infoUrl="">
-  <profileName>California Science Center</profileName>
-  <profileDescription>based on accession sheet at CSC and Dennis Jenkins' spreadsheet; designed for Phase III artifacts</profileDescription>
+  <profileName>collectiveaccess</profileName>
+  <profileDescription>Profile created on June 16 2017 at 13:46:43 by CollectiveAccess Administrator</profileDescription>
   <locales>
     <locale lang="en" country="US">English</locale>
     <locale lang="en" country="CA" dontUseForCataloguing="1">English (Canadian)</locale>
@@ -5283,6 +5283,14 @@
                 </item>
               </items>
             </item>
+            <item idno="sh_stack" enabled="1" default="0">
+              <labels>
+                <label locale="en_US" preferred="1">
+                  <name_singular>SH.stack - Shuttle stack</name_singular>
+                  <name_plural>SH.stack - Shuttle stack</name_plural>
+                </label>
+              </labels>
+            </item>
           </items>
         </item>
         <item idno="concourse_gallery" enabled="1" default="0">
@@ -5290,6 +5298,22 @@
             <label locale="en_US" preferred="1">
               <name_singular>Concourse</name_singular>
               <name_plural>Concourse</name_plural>
+            </label>
+          </labels>
+        </item>
+        <item idno="discovery_room" enabled="1" default="0">
+          <labels>
+            <label locale="en_US" preferred="1">
+              <name_singular>Discovery room</name_singular>
+              <name_plural>Discovery room</name_plural>
+            </label>
+          </labels>
+        </item>
+        <item idno="outside_display" enabled="1" default="0">
+          <labels>
+            <label locale="en_US" preferred="1">
+              <name_singular>Outside display</name_singular>
+              <name_plural>Outside display</name_plural>
             </label>
           </labels>
         </item>
@@ -7607,7 +7631,10 @@
       <labels>
         <label locale="en_US">
           <name>Item value</name>
-          <description>(replacement) value of the object</description>
+          <description>(replacement) value of object:
+For donated/transferred/traded objects, this is estimated value.
+For loaned object, this is declared value.
+For purchased object, this is purchase price.</description>
         </label>
       </labels>
       <typeRestrictions>
@@ -7773,7 +7800,7 @@
           <settings>
             <setting name="minChars">0</setting>
             <setting name="maxChars">65535</setting>
-            <setting name="fieldWidth">40</setting>
+            <setting name="fieldWidth">50</setting>
             <setting name="fieldHeight">1</setting>
             <setting name="usewysiwygeditor">0</setting>
             <setting name="doesNotTakeLocale">0</setting>
@@ -7782,6 +7809,13 @@
             <setting name="suggestExistingValueSort">value</setting>
             <setting name="canBeUsedInSearchForm">1</setting>
             <setting name="canBeUsedInDisplay">1</setting>
+            <setting name="regex"/>
+            <setting name="default_text"/>
+            <setting name="canMakePDF">0</setting>
+            <setting name="canMakePDFForValue">0</setting>
+            <setting name="isDependentValue">0</setting>
+            <setting name="dependentValueTemplate"/>
+            <setting name="mustBeUnique">0</setting>
           </settings>
         </metadataElement>
       </elements>
@@ -8258,6 +8292,14 @@
             <setting name="minimumAttributeBundlesToDisplay">0</setting>
           </settings>
         </restriction>
+        <restriction>
+          <table>ca_object_lots</table>
+          <settings>
+            <setting name="minAttributesPerRow">0</setting>
+            <setting name="maxAttributesPerRow">0</setting>
+            <setting name="minimumAttributeBundlesToDisplay">0</setting>
+          </settings>
+        </restriction>
       </typeRestrictions>
     </metadataElement>
     <metadataElement code="msds" datatype="File">
@@ -8550,7 +8592,7 @@
       </labels>
       <settings>
         <setting name="listWidth">700px</setting>
-        <setting name="render">horiz_hierbrowser</setting>
+        <setting name="render">horiz_hierbrowser_with_search</setting>
       </settings>
       <typeRestrictions>
         <restriction>
@@ -8786,16 +8828,21 @@
               <bundle>ca_objects</bundle>
               <settings>
                 <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
+                <setting name="expand_collapse_value">dont_force</setting>
+                <setting name="expand_collapse_no_value">dont_force</setting>
                 <setting name="dont_include_subtypes_in_type_restriction">0</setting>
                 <setting name="list_format">bubbles</setting>
-                <setting name="sort">1</setting>
                 <setting name="sortDirection">ASC</setting>
                 <setting name="dontShowDeleteButton">0</setting>
-                <setting name="display_template">^ca_objects.preferred_labels</setting>
+                <setting name="display_template">^ca_objects.preferred_labels (^ca_objects.idno)</setting>
                 <setting name="minRelationshipsPerRow"/>
                 <setting name="maxRelationshipsPerRow"/>
+                <setting name="label" locale="en_US">Loaned objects</setting>
+                <setting name="add_label" locale="en_US">Add loaned object</setting>
+                <setting name="showCurrentOnly">0</setting>
+                <setting name="showCurrentUsingDate">effective_date</setting>
+                <setting name="disableQuickadd">0</setting>
+                <setting name="disableSorts">0</setting>
               </settings>
             </placement>
             <placement code="ca_entities">
@@ -8829,6 +8876,9 @@
                 <setting name="minRelationshipsPerRow"/>
                 <setting name="maxRelationshipsPerRow"/>
               </settings>
+            </placement>
+            <placement code="ca_object_lots4">
+              <bundle>ca_object_lots</bundle>
             </placement>
           </bundlePlacements>
         </screen>
@@ -10174,6 +10224,15 @@
                 <setting name="usewysiwygeditor"/>
               </settings>
             </placement>
+            <placement code="ca_attribute_alternate_object_">
+              <bundle>ca_attribute_alternate_object_names</bundle>
+              <settings>
+                <setting name="readonly"/>
+                <setting name="expand_collapse_value">dont_force</setting>
+                <setting name="expand_collapse_no_value">dont_force</setting>
+                <setting name="sortDirection">ASC</setting>
+              </settings>
+            </placement>
             <placement code="ca_attribute_administrative_di">
               <bundle>ca_attribute_administrative_division</bundle>
               <settings>
@@ -10228,25 +10287,8 @@
             <placement code="ca_attribute_accessioned9">
               <bundle>ca_attribute_accessioned</bundle>
             </placement>
-            <placement code="item_status_id13">
-              <bundle>item_status_id</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">dont_force</setting>
-                <setting name="expand_collapse_no_value">dont_force</setting>
-              </settings>
-            </placement>
             <placement code="ca_objects_deaccession11">
               <bundle>ca_objects_deaccession</bundle>
-            </placement>
-            <placement code="ca_attribute_alternate_object_">
-              <bundle>ca_attribute_alternate_object_names</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">dont_force</setting>
-                <setting name="expand_collapse_no_value">dont_force</setting>
-                <setting name="sortDirection">ASC</setting>
-              </settings>
             </placement>
             <placement code="ca_attribute_phase_3_exhibit_c">
               <bundle>ca_attribute_phase_3_exhibit_code</bundle>
@@ -10273,15 +10315,11 @@
             <placement code="ca_attribute_delivery_date14">
               <bundle>ca_attribute_delivery_date</bundle>
             </placement>
-            <placement code="ca_attribute_itar_group9">
-              <bundle>ca_attribute_itar_group</bundle>
-              <settings>
-                <setting name="add_label" locale="en_US">add ITAR info</setting>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">dont_force</setting>
-                <setting name="expand_collapse_no_value">dont_force</setting>
-                <setting name="sortDirection">ASC</setting>
-              </settings>
+            <placement code="ca_attribute_itar_status20">
+              <bundle>ca_attribute_itar_status</bundle>
+            </placement>
+            <placement code="ca_attribute_itar_code21">
+              <bundle>ca_attribute_itar_code</bundle>
             </placement>
             <placement code="ca_attribute_length_dimension1">
               <bundle>ca_attribute_length_dimension</bundle>
@@ -10370,37 +10408,32 @@
         <screen idno="screen_12_8" default="0">
           <labels>
             <label locale="en_US">
-              <name>Donor info</name>
+              <name>Acquisition info</name>
             </label>
           </labels>
           <bundlePlacements>
             <placement code="ca_attribute_owned_by_loaned_t">
               <bundle>ca_attribute_owned_by_loaned_to</bundle>
             </placement>
-            <placement code="ca_attribute_owner1">
-              <bundle>ca_attribute_owner</bundle>
+            <placement code="ca_entities4">
+              <bundle>ca_entities</bundle>
               <settings>
                 <setting name="readonly"/>
                 <setting name="expand_collapse_value">dont_force</setting>
                 <setting name="expand_collapse_no_value">dont_force</setting>
+                <setting name="restrict_to_relationship_types">contact</setting>
+                <setting name="dont_include_subtypes_in_type_restriction">0</setting>
+                <setting name="list_format">bubbles</setting>
                 <setting name="sortDirection">ASC</setting>
-              </settings>
-            </placement>
-            <placement code="ca_attribute_object_contact2">
-              <bundle>ca_attribute_object_contact</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">dont_force</setting>
-                <setting name="expand_collapse_no_value">dont_force</setting>
-                <setting name="sortDirection">ASC</setting>
-              </settings>
-            </placement>
-            <placement code="acquisition_type_id3">
-              <bundle>acquisition_type_id</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">dont_force</setting>
-                <setting name="expand_collapse_no_value">dont_force</setting>
+                <setting name="dontShowDeleteButton">0</setting>
+                <setting name="minRelationshipsPerRow"/>
+                <setting name="maxRelationshipsPerRow"/>
+                <setting name="showCurrentOnly">0</setting>
+                <setting name="showCurrentUsingDate">effective_date</setting>
+                <setting name="disableQuickadd">0</setting>
+                <setting name="disableSorts">0</setting>
+                <setting name="label" locale="en_US">Contact</setting>
+                <setting name="add_label" locale="en_US">Add contact</setting>
               </settings>
             </placement>
             <placement code="ca_entities5">
@@ -10413,6 +10446,7 @@
                 <setting name="restrict_to_relationship_types">lender</setting>
                 <setting name="restrict_to_relationship_types">vendor</setting>
                 <setting name="restrict_to_relationship_types">transfer_party</setting>
+                <setting name="restrict_to_relationship_types">trader</setting>
                 <setting name="dont_include_subtypes_in_type_restriction">0</setting>
                 <setting name="list_format">bubbles</setting>
                 <setting name="sortDirection">ASC</setting>
@@ -10423,17 +10457,7 @@
                 <setting name="showCurrentUsingDate">effective_date</setting>
                 <setting name="disableQuickadd">0</setting>
                 <setting name="disableSorts">0</setting>
-                <setting name="label" locale="en_US">(v2) Donor, lender, vendor, transfer party</setting>
-              </settings>
-            </placement>
-            <placement code="ca_attribute_donor3">
-              <bundle>ca_attribute_donor</bundle>
-              <settings>
-                <setting name="label" locale="en_US">Donor, Lender, Vendor, Transfer Party</setting>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">dont_force</setting>
-                <setting name="expand_collapse_no_value">dont_force</setting>
-                <setting name="sortDirection">ASC</setting>
+                <setting name="label" locale="en_US">Donor, lender, vendor, transfer party</setting>
               </settings>
             </placement>
             <placement code="ca_attribute_donor_attribution">
@@ -10443,6 +10467,8 @@
                 <setting name="expand_collapse_value">dont_force</setting>
                 <setting name="expand_collapse_no_value">dont_force</setting>
                 <setting name="sortDirection">ASC</setting>
+                <setting name="label" locale="en_US">Attribution for donor, lender, vendor, transfer party</setting>
+                <setting name="add_label" locale="en_US">Add attribution</setting>
               </settings>
             </placement>
             <placement code="ca_loans1">
@@ -10477,27 +10503,6 @@
                 <setting name="dontShowDeleteButton">0</setting>
               </settings>
             </placement>
-            <placement code="ca_attribute_voucher_number10">
-              <bundle>ca_attribute_voucher_number</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">dont_force</setting>
-                <setting name="expand_collapse_no_value">dont_force</setting>
-                <setting name="sortDirection">ASC</setting>
-                <setting name="label" locale="en_US">SF-122, voucher, agreement, invoice number</setting>
-                <setting name="add_label" locale="en_US">Add SF-122, voucher, agreement, invoice number</setting>
-                <setting name="description" locale="en_US">ID number for transfer/loan/purchase document for this object</setting>
-              </settings>
-            </placement>
-            <placement code="ca_attribute_purchase_price4">
-              <bundle>ca_attribute_purchase_price</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">dont_force</setting>
-                <setting name="expand_collapse_no_value">dont_force</setting>
-                <setting name="sortDirection">ASC</setting>
-              </settings>
-            </placement>
             <placement code="ca_attribute_item_value8">
               <bundle>ca_attribute_item_value</bundle>
               <settings>
@@ -10507,14 +10512,8 @@
                 <setting name="sortDirection">ASC</setting>
               </settings>
             </placement>
-            <placement code="ca_attribute_insurance_group7">
-              <bundle>ca_attribute_insurance_group</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">dont_force</setting>
-                <setting name="expand_collapse_no_value">dont_force</setting>
-                <setting name="sortDirection">ASC</setting>
-              </settings>
+            <placement code="ca_attribute_insurance_value15">
+              <bundle>ca_attribute_insurance_value</bundle>
             </placement>
             <placement code="ca_attribute_insurance_method1">
               <bundle>ca_attribute_insurance_method</bundle>
@@ -10530,26 +10529,6 @@
           <bundlePlacements>
             <placement code="ca_attribute_on_display4">
               <bundle>ca_attribute_on_display</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">dont_force</setting>
-                <setting name="expand_collapse_no_value">dont_force</setting>
-                <setting name="sortDirection">ASC</setting>
-              </settings>
-            </placement>
-            <placement code="ca_attribute_current_display_m">
-              <bundle>ca_attribute_current_display_method</bundle>
-              <settings>
-                <setting name="label" locale="en_US">Intended display method</setting>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">dont_force</setting>
-                <setting name="expand_collapse_no_value">dont_force</setting>
-                <setting name="sortDirection">ASC</setting>
-                <setting name="add_label" locale="en_US">Add display method</setting>
-              </settings>
-            </placement>
-            <placement code="ca_attribute_intended_gallery_">
-              <bundle>ca_attribute_intended_gallery_location</bundle>
               <settings>
                 <setting name="readonly"/>
                 <setting name="expand_collapse_value">dont_force</setting>
@@ -10578,6 +10557,26 @@
                 <setting name="showCurrentUsingDate">effective_date</setting>
                 <setting name="disableQuickadd">0</setting>
                 <setting name="disableSorts">0</setting>
+              </settings>
+            </placement>
+            <placement code="ca_attribute_intended_gallery_">
+              <bundle>ca_attribute_intended_gallery_location</bundle>
+              <settings>
+                <setting name="readonly"/>
+                <setting name="expand_collapse_value">dont_force</setting>
+                <setting name="expand_collapse_no_value">dont_force</setting>
+                <setting name="sortDirection">ASC</setting>
+              </settings>
+            </placement>
+            <placement code="ca_attribute_current_display_m">
+              <bundle>ca_attribute_current_display_method</bundle>
+              <settings>
+                <setting name="label" locale="en_US">Intended display method</setting>
+                <setting name="readonly"/>
+                <setting name="expand_collapse_value">dont_force</setting>
+                <setting name="expand_collapse_no_value">dont_force</setting>
+                <setting name="sortDirection">ASC</setting>
+                <setting name="add_label" locale="en_US">Add display method</setting>
               </settings>
             </placement>
             <placement code="ca_movements3">
@@ -10721,16 +10720,19 @@
               <bundle>ca_objects</bundle>
               <settings>
                 <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
+                <setting name="expand_collapse_value">dont_force</setting>
+                <setting name="expand_collapse_no_value">dont_force</setting>
                 <setting name="dont_include_subtypes_in_type_restriction">0</setting>
                 <setting name="list_format">bubbles</setting>
-                <setting name="sort">1</setting>
                 <setting name="sortDirection">ASC</setting>
                 <setting name="dontShowDeleteButton">0</setting>
-                <setting name="display_template">^ca_objects.preferred_labels</setting>
+                <setting name="display_template">^ca_objects.preferred_labels (^ca_objects.idno)</setting>
                 <setting name="minRelationshipsPerRow"/>
                 <setting name="maxRelationshipsPerRow"/>
+                <setting name="showCurrentOnly">0</setting>
+                <setting name="showCurrentUsingDate">effective_date</setting>
+                <setting name="disableQuickadd">0</setting>
+                <setting name="disableSorts">0</setting>
               </settings>
             </placement>
           </bundlePlacements>
@@ -10825,14 +10827,6 @@
                 <setting name="expand_collapse_no_value">bubbles</setting>
               </settings>
             </placement>
-            <placement code="source_id">
-              <bundle>source_id</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
-              </settings>
-            </placement>
             <placement code="preferred_labels">
               <bundle>preferred_labels</bundle>
               <settings>
@@ -10904,10 +10898,11 @@
               <bundle>ca_attribute_telephone</bundle>
               <settings>
                 <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
-                <setting name="sort">1</setting>
+                <setting name="expand_collapse_value">dont_force</setting>
+                <setting name="expand_collapse_no_value">dont_force</setting>
                 <setting name="sortDirection">ASC</setting>
+                <setting name="label" locale="en_US">Phone</setting>
+                <setting name="add_label" locale="en_US">Add phone</setting>
               </settings>
             </placement>
             <placement code="ca_attribute_email">
@@ -10933,67 +10928,38 @@
               <bundle>ca_objects</bundle>
               <settings>
                 <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
+                <setting name="expand_collapse_value">dont_force</setting>
+                <setting name="expand_collapse_no_value">dont_force</setting>
                 <setting name="dont_include_subtypes_in_type_restriction">0</setting>
                 <setting name="list_format">bubbles</setting>
-                <setting name="sort">1</setting>
                 <setting name="sortDirection">ASC</setting>
                 <setting name="dontShowDeleteButton">0</setting>
-                <setting name="display_template">^ca_objects.preferred_labels</setting>
+                <setting name="display_template">^ca_objects.preferred_labels (^ca_objects.idno)</setting>
                 <setting name="minRelationshipsPerRow"/>
                 <setting name="maxRelationshipsPerRow"/>
+                <setting name="showCurrentOnly">0</setting>
+                <setting name="showCurrentUsingDate">effective_date</setting>
+                <setting name="disableQuickadd">0</setting>
+                <setting name="disableSorts">0</setting>
               </settings>
             </placement>
             <placement code="ca_entities">
               <bundle>ca_entities</bundle>
               <settings>
                 <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
+                <setting name="expand_collapse_value">dont_force</setting>
+                <setting name="expand_collapse_no_value">dont_force</setting>
                 <setting name="dont_include_subtypes_in_type_restriction">0</setting>
                 <setting name="list_format">bubbles</setting>
-                <setting name="sort">1</setting>
                 <setting name="sortDirection">ASC</setting>
                 <setting name="dontShowDeleteButton">0</setting>
                 <setting name="display_template">^ca_entities.preferred_labels</setting>
                 <setting name="minRelationshipsPerRow"/>
                 <setting name="maxRelationshipsPerRow"/>
-              </settings>
-            </placement>
-            <placement code="ca_events">
-              <bundle>ca_occurrences</bundle>
-              <settings>
-                <setting name="label" locale="en_US">Related events</setting>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
-                <setting name="dont_include_subtypes_in_type_restriction">0</setting>
-                <setting name="list_format">bubbles</setting>
-                <setting name="sort">1</setting>
-                <setting name="sortDirection">ASC</setting>
-                <setting name="dontShowDeleteButton">0</setting>
-                <setting name="display_template">^ca_occurrences.preferred_labels</setting>
-                <setting name="minRelationshipsPerRow"/>
-                <setting name="maxRelationshipsPerRow"/>
-              </settings>
-            </placement>
-            <placement code="ca_places">
-              <bundle>ca_places</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
-                <setting name="dont_include_subtypes_in_type_restriction">0</setting>
-                <setting name="list_format">bubbles</setting>
-                <setting name="sort">1</setting>
-                <setting name="sortDirection">ASC</setting>
-                <setting name="dontShowDeleteButton">0</setting>
-                <setting name="display_template">^ca_places.preferred_labels</setting>
-                <setting name="minRelationshipsPerRow"/>
-                <setting name="maxRelationshipsPerRow"/>
-                <setting name="useHierarchicalBrowser">1</setting>
-                <setting name="hierarchicalBrowserHeight">200px</setting>
+                <setting name="showCurrentOnly">0</setting>
+                <setting name="showCurrentUsingDate">effective_date</setting>
+                <setting name="disableQuickadd">0</setting>
+                <setting name="disableSorts">0</setting>
               </settings>
             </placement>
             <placement code="ca_collections">
@@ -11610,16 +11576,21 @@
               <bundle>ca_objects</bundle>
               <settings>
                 <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
+                <setting name="expand_collapse_value">dont_force</setting>
+                <setting name="expand_collapse_no_value">dont_force</setting>
                 <setting name="dont_include_subtypes_in_type_restriction">0</setting>
                 <setting name="list_format">bubbles</setting>
-                <setting name="sort">1</setting>
                 <setting name="sortDirection">ASC</setting>
                 <setting name="dontShowDeleteButton">0</setting>
                 <setting name="display_template">^ca_objects.preferred_labels</setting>
                 <setting name="minRelationshipsPerRow"/>
                 <setting name="maxRelationshipsPerRow"/>
+                <setting name="label" locale="en_US">Objects in collection</setting>
+                <setting name="add_label" locale="en_US">Add object</setting>
+                <setting name="showCurrentOnly">0</setting>
+                <setting name="showCurrentUsingDate">effective_date</setting>
+                <setting name="disableQuickadd">0</setting>
+                <setting name="disableSorts">0</setting>
               </settings>
             </placement>
             <placement code="ca_entities">
@@ -11636,42 +11607,6 @@
                 <setting name="display_template">^ca_entities.preferred_labels</setting>
                 <setting name="minRelationshipsPerRow"/>
                 <setting name="maxRelationshipsPerRow"/>
-              </settings>
-            </placement>
-            <placement code="ca_events">
-              <bundle>ca_occurrences</bundle>
-              <settings>
-                <setting name="label" locale="en_US">Related events</setting>
-                <setting name="label" locale="fr_FR">Evénements liés</setting>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
-                <setting name="dont_include_subtypes_in_type_restriction">0</setting>
-                <setting name="list_format">bubbles</setting>
-                <setting name="sort">1</setting>
-                <setting name="sortDirection">ASC</setting>
-                <setting name="dontShowDeleteButton">0</setting>
-                <setting name="display_template">^ca_occurrences.preferred_labels</setting>
-                <setting name="minRelationshipsPerRow"/>
-                <setting name="maxRelationshipsPerRow"/>
-              </settings>
-            </placement>
-            <placement code="ca_places">
-              <bundle>ca_places</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
-                <setting name="dont_include_subtypes_in_type_restriction">0</setting>
-                <setting name="list_format">bubbles</setting>
-                <setting name="sort">1</setting>
-                <setting name="sortDirection">ASC</setting>
-                <setting name="dontShowDeleteButton">0</setting>
-                <setting name="display_template">^ca_places.preferred_labels</setting>
-                <setting name="minRelationshipsPerRow"/>
-                <setting name="maxRelationshipsPerRow"/>
-                <setting name="useHierarchicalBrowser">1</setting>
-                <setting name="hierarchicalBrowserHeight">200px</setting>
               </settings>
             </placement>
             <placement code="ca_collections">
@@ -11964,8 +11899,40 @@
                 <setting name="expand_collapse_no_value">bubbles</setting>
               </settings>
             </placement>
+            <placement code="nonpreferred_labels3">
+              <bundle>nonpreferred_labels</bundle>
+              <settings>
+                <setting name="label" locale="en_US">Alternate lot titles</setting>
+                <setting name="add_label" locale="en_US">Add alternate title</setting>
+                <setting name="width">600px</setting>
+                <setting name="height">1</setting>
+                <setting name="readonly"/>
+                <setting name="expand_collapse_value">dont_force</setting>
+                <setting name="expand_collapse_no_value">dont_force</setting>
+                <setting name="usewysiwygeditor"/>
+              </settings>
+            </placement>
             <placement code="lot_status_id3">
               <bundle>lot_status_id</bundle>
+            </placement>
+            <placement code="ca_entities7">
+              <bundle>ca_entities</bundle>
+              <settings>
+                <setting name="label" locale="en_US">Donor/Lender/Vendor/Transfer Party</setting>
+                <setting name="readonly"/>
+                <setting name="expand_collapse_value">dont_force</setting>
+                <setting name="expand_collapse_no_value">dont_force</setting>
+                <setting name="dont_include_subtypes_in_type_restriction">0</setting>
+                <setting name="list_format">bubbles</setting>
+                <setting name="sortDirection">ASC</setting>
+                <setting name="dontShowDeleteButton">0</setting>
+                <setting name="minRelationshipsPerRow"/>
+                <setting name="maxRelationshipsPerRow"/>
+                <setting name="showCurrentOnly">0</setting>
+                <setting name="showCurrentUsingDate">effective_date</setting>
+                <setting name="disableQuickadd">0</setting>
+                <setting name="disableSorts">0</setting>
+              </settings>
             </placement>
             <placement code="ca_attribute_DGS_paid_lot3">
               <bundle>ca_attribute_DGS_paid_lot</bundle>
@@ -12009,6 +11976,9 @@
                 <setting name="description" locale="en_US">Objects contained in this object lot</setting>
               </settings>
             </placement>
+            <placement code="ca_loans9">
+              <bundle>ca_loans</bundle>
+            </placement>
             <placement code="ca_attribute_description">
               <bundle>ca_attribute_description</bundle>
               <settings>
@@ -12022,6 +11992,9 @@
                 <setting name="add_label" locale="en_US">Add notes</setting>
               </settings>
             </placement>
+            <placement code="ca_attribute_documentation_inf">
+              <bundle>ca_attribute_documentation_info</bundle>
+            </placement>
           </bundlePlacements>
         </screen>
       </screens>
@@ -12030,9 +12003,6 @@
       <labels>
         <label locale="en_US">
           <name>Object representation editor</name>
-        </label>
-        <label locale="fr_FR">
-          <name>Editeur de représentation d'objet</name>
         </label>
       </labels>
       <screens>
@@ -12128,11 +12098,11 @@
             <label locale="en_US">
               <name>Relationships</name>
             </label>
-            <label locale="fr_FR">
-              <name>Relations</name>
-            </label>
           </labels>
           <bundlePlacements>
+            <placement code="ca_objects1">
+              <bundle>ca_objects</bundle>
+            </placement>
             <placement code="ca_entities">
               <bundle>ca_entities</bundle>
               <settings>
@@ -12147,24 +12117,6 @@
                 <setting name="display_template">^ca_entities.preferred_labels</setting>
                 <setting name="minRelationshipsPerRow"/>
                 <setting name="maxRelationshipsPerRow"/>
-              </settings>
-            </placement>
-            <placement code="ca_places">
-              <bundle>ca_places</bundle>
-              <settings>
-                <setting name="readonly"/>
-                <setting name="expand_collapse_value">bubbles</setting>
-                <setting name="expand_collapse_no_value">bubbles</setting>
-                <setting name="dont_include_subtypes_in_type_restriction">0</setting>
-                <setting name="list_format">bubbles</setting>
-                <setting name="sort">1</setting>
-                <setting name="sortDirection">ASC</setting>
-                <setting name="dontShowDeleteButton">0</setting>
-                <setting name="display_template">^ca_places.preferred_labels</setting>
-                <setting name="minRelationshipsPerRow"/>
-                <setting name="maxRelationshipsPerRow"/>
-                <setting name="useHierarchicalBrowser">1</setting>
-                <setting name="hierarchicalBrowserHeight">200px</setting>
               </settings>
             </placement>
           </bundlePlacements>
@@ -12876,6 +12828,14 @@
             </label>
           </labels>
         </type>
+        <type code="employee" default="0" typeRestrictionLeft="ind" includeSubtypesLeft="0" typeRestrictionRight="org" includeSubtypesRight="0">
+          <labels>
+            <label locale="en_US">
+              <typename>is employee of</typename>
+              <typename_reverse>is employer of</typename_reverse>
+            </label>
+          </labels>
+        </type>
       </types>
     </relationshipTable>
     <relationshipTable name="ca_list_items_x_list_items">
@@ -12912,27 +12872,43 @@
     </relationshipTable>
     <relationshipTable name="ca_object_lots_x_entities">
       <types>
-        <type code="donor" default="1">
+        <type code="donor" default="0" typeRestrictionLeft="gift" includeSubtypesLeft="0">
           <labels>
             <label locale="en_US">
               <typename>was donated by</typename>
               <typename_reverse>is donor of</typename_reverse>
             </label>
-            <label locale="fr_FR">
-              <typename>a été donné par</typename>
-              <typename_reverse>est le donateur de</typename_reverse>
+          </labels>
+        </type>
+        <type code="lender" default="0" typeRestrictionLeft="loan" includeSubtypesLeft="0">
+          <labels>
+            <label locale="en_US">
+              <typename>was loaned by</typename>
+              <typename_reverse>is lender of</typename_reverse>
             </label>
           </labels>
         </type>
-        <type code="provider" default="0">
+        <type code="transfer_party" default="0">
           <labels>
             <label locale="en_US">
-              <typename>was provided by</typename>
-              <typename_reverse>is provider of</typename_reverse>
+              <typename>was transferred by</typename>
+              <typename_reverse>is transfer party of</typename_reverse>
             </label>
-            <label locale="fr_FR">
-              <typename>a été fourni par</typename>
-              <typename_reverse>est le fournisseur de</typename_reverse>
+          </labels>
+        </type>
+        <type code="vendor" default="0" typeRestrictionLeft="purchase" includeSubtypesLeft="0">
+          <labels>
+            <label locale="en_US">
+              <typename>was sold by</typename>
+              <typename_reverse>is vendor of</typename_reverse>
+            </label>
+          </labels>
+        </type>
+        <type code="trader" default="0" typeRestrictionLeft="exchange" includeSubtypesLeft="0">
+          <labels>
+            <label locale="en_US">
+              <typename>was traded by</typename>
+              <typename_reverse>is trader of</typename_reverse>
             </label>
           </labels>
         </type>
@@ -13049,6 +13025,14 @@
             <label locale="en_US">
               <typename>transferred by</typename>
               <typename_reverse>transfer party</typename_reverse>
+            </label>
+          </labels>
+        </type>
+        <type code="trader" default="0" typeRestrictionLeft="physical_object" includeSubtypesLeft="0">
+          <labels>
+            <label locale="en_US">
+              <typename>traded by</typename>
+              <typename_reverse>trader</typename_reverse>
             </label>
           </labels>
         </type>
@@ -15253,7 +15237,7 @@
           <settings>
             <setting name="maximum_length"><![CDATA[2048]]></setting>
             <setting name="label" locale="en_US">Other ID numbers</setting>
-            <setting name="format"><![CDATA[<unit delimiter="<br></unit>">^ca_objects.altID.previous_ID_num (^ca_objects.altID.description_prev_ID_num)</unit>]]></setting>
+            <setting name="format"><![CDATA[<ifdef code="ca_objects.altID"><unit delimiter="<br></unit>">^ca_objects.altID.previous_ID_num (^ca_objects.altID.description_prev_ID_num)</unit></ifdef>]]></setting>
             <setting name="delimiter"><![CDATA[]]></setting>
             <setting name="filter"><![CDATA[]]></setting>
             <setting name="bottom_line"><![CDATA[]]></setting>
@@ -15300,14 +15284,8 @@
             <setting name="delimiter"><![CDATA[]]></setting>
           </settings>
         </placement>
-        <placement code="ca_objects_nonpreferred_labels">
-          <bundle>ca_objects.nonpreferred_labels</bundle>
-          <settings>
-            <setting name="label" locale="en_US">Alternate object names</setting>
-            <setting name="maximum_length"><![CDATA[100]]></setting>
-            <setting name="format"><![CDATA[^alternate_object_names]]></setting>
-            <setting name="delimiter"><![CDATA[, ]]></setting>
-          </settings>
+        <placement code="ca_objects_alternate_object_names">
+          <bundle>ca_objects.alternate_object_names</bundle>
         </placement>
         <placement code="ca_objects_date_manufacture">
           <bundle>ca_objects.date_manufacture</bundle>
@@ -15319,21 +15297,23 @@
             <setting name="filter"><![CDATA[]]></setting>
           </settings>
         </placement>
-        <placement code="ca_objects_acquisition_type_id">
-          <bundle>ca_objects.acquisition_type_id</bundle>
+        <placement code="ca_entities">
+          <bundle>ca_entities</bundle>
           <settings>
-            <setting name="maximum_length"><![CDATA[100]]></setting>
-            <setting name="label" locale="en_US"/>
-          </settings>
-        </placement>
-        <placement code="ca_objects_donor">
-          <bundle>ca_objects.donor</bundle>
-          <settings>
-            <setting name="label" locale="en_US">Donor, Lender, Vendor, Transfer Party</setting>
-            <setting name="maximum_length"><![CDATA[2048]]></setting>
-            <setting name="format"><![CDATA[<unit delimiter="<br>">^ca_objects.donor</unit>]]></setting>
-            <setting name="delimiter"><![CDATA[]]></setting>
-            <setting name="filter"><![CDATA[]]></setting>
+            <setting name="format"><![CDATA[^ca_entities.preferred_labels.displayname]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[donor]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[lender]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[vendor]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[transfer_party]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[trader]]></setting>
+            <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
+            <setting name="label" locale="en_US">Donor/Lender/Vendor/Transfer party</setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
+            <setting name="show_hierarchy"><![CDATA[0]]></setting>
+            <setting name="remove_first_items"><![CDATA[0]]></setting>
+            <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
           </settings>
         </placement>
         <placement code="ca_objects_donor_attribution">
@@ -15341,7 +15321,7 @@
           <settings>
             <setting name="maximum_length"><![CDATA[2048]]></setting>
             <setting name="label" locale="en_US"/>
-            <setting name="format"><![CDATA[]]></setting>
+            <setting name="format"><![CDATA[^ca_objects.donor_attribution.donor_attrib_text]]></setting>
             <setting name="delimiter"><![CDATA[; ]]></setting>
             <setting name="filter"><![CDATA[]]></setting>
             <setting name="bottom_line"><![CDATA[]]></setting>
@@ -15351,14 +15331,13 @@
           <bundle>ca_loans</bundle>
           <settings>
             <setting name="label" locale="en_US">Loan info</setting>
-            <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
-            <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
-            <setting name="format"><![CDATA[^ca_loans.preferred_labels <l>(^ca_loans.idno)</l>]]></setting>
+            <setting name="format"><![CDATA[]]></setting>
             <setting name="delimiter"><![CDATA[]]></setting>
-            <setting name="show_hierarchy"><![CDATA[0]]></setting>
-            <setting name="remove_first_items"><![CDATA[0]]></setting>
-            <setting name="hierarchy_limit"><![CDATA[0]]></setting>
             <setting name="sort"><![CDATA[]]></setting>
+            <setting name="remove_first_items"><![CDATA[0]]></setting>
+            <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
+            <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
           </settings>
         </placement>
         <placement code="ca_objects_object_function">
@@ -15496,11 +15475,12 @@
     <display code="donor_sheet" type="ca_entities" system="1">
       <labels>
         <label locale="en_US">
-          <name>donor sheet</name>
+          <name>donor/lender/vendor/transfer party sheet</name>
         </label>
       </labels>
       <settings>
         <setting name="show_empty_values"><![CDATA[1]]></setting>
+        <setting name="bottom_line"><![CDATA[]]></setting>
       </settings>
       <userAccess>
         <permission user="prothjohnson" access="edit"/>
@@ -15514,9 +15494,24 @@
           <bundle>ca_entities.preferred_labels</bundle>
           <settings>
             <setting name="label" locale="en_US">Name</setting>
-            <setting name="maximum_length"><![CDATA[100]]></setting>
             <setting name="format"><![CDATA[]]></setting>
             <setting name="delimiter"><![CDATA[]]></setting>
+            <setting name="maximum_length"><![CDATA[100]]></setting>
+          </settings>
+        </placement>
+        <placement code="ca_entities_nonpreferred_labels">
+          <bundle>ca_entities.nonpreferred_labels</bundle>
+          <settings>
+            <setting name="label" locale="en_US">Alternate names</setting>
+            <setting name="format"><![CDATA[]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
+            <setting name="maximum_length"><![CDATA[100]]></setting>
+          </settings>
+        </placement>
+        <placement code="ca_entities_type_id">
+          <bundle>ca_entities.type_id</bundle>
+          <settings>
+            <setting name="label" locale="en_US">Type</setting>
           </settings>
         </placement>
         <placement code="ca_entities_email">
@@ -15525,7 +15520,7 @@
             <setting name="maximum_length"><![CDATA[2048]]></setting>
             <setting name="label" locale="en_US"/>
             <setting name="format"><![CDATA[]]></setting>
-            <setting name="delimiter"><![CDATA[, ]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
             <setting name="filter"><![CDATA[]]></setting>
           </settings>
         </placement>
@@ -15533,9 +15528,9 @@
           <bundle>ca_entities.telephone</bundle>
           <settings>
             <setting name="maximum_length"><![CDATA[2048]]></setting>
-            <setting name="label" locale="en_US"/>
+            <setting name="label" locale="en_US">Phone</setting>
             <setting name="format"><![CDATA[]]></setting>
-            <setting name="delimiter"><![CDATA[, ]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
             <setting name="filter"><![CDATA[]]></setting>
           </settings>
         </placement>
@@ -15544,13 +15539,21 @@
           <settings>
             <setting name="maximum_length"><![CDATA[2048]]></setting>
             <setting name="label" locale="en_US"/>
-            <setting name="format"><![CDATA[<br />
-^ca_entities.address.address1<br />
-^ca_entities.address.address2<br />
-^ca_entities.address.city, ^ca_entities.address.stateprovince, ^ca_entities.address.postalcode]]></setting>
-            <setting name="delimiter"><![CDATA[]]></setting>
+            <setting name="format"><![CDATA[<ifdef code="ca_entities.address">^ca_entities.address.address1,
+<ifdef code="ca_entities.address.address2">^ca_entities.address.address2,</ifdef>
+^ca_entities.address.city, ^ca_entities.address.stateprovince ^ca_entities.address.postalcode</ifdef>]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
             <setting name="filter"><![CDATA[]]></setting>
             <setting name="bottom_line"><![CDATA[]]></setting>
+          </settings>
+        </placement>
+        <placement code="ca_object_lots">
+          <bundle>ca_object_lots</bundle>
+          <settings>
+            <setting name="label" locale="en_US">Object lots</setting>
+            <setting name="format"><![CDATA[^ca_object_lots.preferred_labels (^ca_object_lots.idno_stub)]]></setting>
+            <setting name="delimiter"><![CDATA[]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
           </settings>
         </placement>
         <placement code="ca_loans">
@@ -15558,12 +15561,13 @@
           <settings>
             <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
             <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
-            <setting name="label" locale="en_US"/>
-            <setting name="format"><![CDATA[^ca_loans.preferred_labels (loan #^ca_loans.idno)]]></setting>
-            <setting name="delimiter"><![CDATA[]]></setting>
+            <setting name="label" locale="en_US">Loans</setting>
+            <setting name="format"><![CDATA[^ca_loans.preferred_labels (^ca_loans.idno)]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
             <setting name="show_hierarchy"><![CDATA[0]]></setting>
             <setting name="remove_first_items"><![CDATA[0]]></setting>
             <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
           </settings>
         </placement>
         <placement code="ca_objects">
@@ -15571,12 +15575,119 @@
           <settings>
             <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
             <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
-            <setting name="label" locale="en_US"/>
-            <setting name="format"><![CDATA[<l>^ca_objects.preferred_labels</l>]]></setting>
-            <setting name="delimiter"><![CDATA[]]></setting>
+            <setting name="label" locale="en_US">Donated objects</setting>
+            <setting name="format"><![CDATA[<ifdef code="ca_objects.preferred_labels">^ca_objects.preferred_labels (^ca_objects.idno)</ifdef>]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[donor]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
             <setting name="show_hierarchy"><![CDATA[0]]></setting>
             <setting name="remove_first_items"><![CDATA[0]]></setting>
             <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
+          </settings>
+        </placement>
+        <placement code="ca_objects">
+          <bundle>ca_objects</bundle>
+          <settings>
+            <setting name="label" locale="en_US">Loaned objects</setting>
+            <setting name="format"><![CDATA[<ifdef code="ca_objects.preferred_labels">^ca_objects.preferred_labels (^ca_objects.idno)</ifdef>]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[lender]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
+            <setting name="remove_first_items"><![CDATA[0]]></setting>
+            <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
+            <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
+            <setting name="show_hierarchy"><![CDATA[0]]></setting>
+          </settings>
+        </placement>
+        <placement code="ca_objects">
+          <bundle>ca_objects</bundle>
+          <settings>
+            <setting name="label" locale="en_US">Sold objects</setting>
+            <setting name="format"><![CDATA[<ifdef code="ca_objects.preferred_labels">^ca_objects.preferred_labels (^ca_objects.idno)</ifdef>]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[vendor]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
+            <setting name="remove_first_items"><![CDATA[0]]></setting>
+            <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
+            <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
+            <setting name="show_hierarchy"><![CDATA[0]]></setting>
+          </settings>
+        </placement>
+        <placement code="ca_objects">
+          <bundle>ca_objects</bundle>
+          <settings>
+            <setting name="label" locale="en_US">Transferred objects</setting>
+            <setting name="format"><![CDATA[<ifdef code="ca_objects.preferred_labels">^ca_objects.preferred_labels (^ca_objects.idno)</ifdef>]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[transfer_party]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
+            <setting name="remove_first_items"><![CDATA[0]]></setting>
+            <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
+            <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
+            <setting name="show_hierarchy"><![CDATA[0]]></setting>
+          </settings>
+        </placement>
+        <placement code="ca_objects">
+          <bundle>ca_objects</bundle>
+          <settings>
+            <setting name="label" locale="en_US">Traded objects</setting>
+            <setting name="format"><![CDATA[<ifdef code="ca_objects.preferred_labels">^ca_objects.preferred_labels (^ca_objects.idno)</ifdef>]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
+            <setting name="remove_first_items"><![CDATA[0]]></setting>
+            <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
+            <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[trader]]></setting>
+            <setting name="show_hierarchy"><![CDATA[0]]></setting>
+          </settings>
+        </placement>
+        <placement code="ca_objects">
+          <bundle>ca_objects</bundle>
+          <settings>
+            <setting name="label" locale="en_US">Contact for</setting>
+            <setting name="format"><![CDATA[<ifdef code="ca_objects.preferred_labels">^ca_objects.preferred_labels (^ca_objects.idno)</ifdef>]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[contact]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
+            <setting name="remove_first_items"><![CDATA[0]]></setting>
+            <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
+            <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
+            <setting name="show_hierarchy"><![CDATA[0]]></setting>
+          </settings>
+        </placement>
+        <placement code="ca_objects">
+          <bundle>ca_objects</bundle>
+          <settings>
+            <setting name="label" locale="en_US">Owner of</setting>
+            <setting name="format"><![CDATA[<ifdef code="ca_objects.preferred_labels">^ca_objects.preferred_labels (^ca_objects.idno)</ifdef>]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[owner]]></setting>
+            <setting name="delimiter"><![CDATA[]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
+            <setting name="remove_first_items"><![CDATA[0]]></setting>
+            <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
+            <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
+            <setting name="show_hierarchy"><![CDATA[0]]></setting>
+          </settings>
+        </placement>
+        <placement code="ca_objects">
+          <bundle>ca_objects</bundle>
+          <settings>
+            <setting name="label" locale="en_US">Manufacturer of</setting>
+            <setting name="format"><![CDATA[<ifdef code="ca_objects.preferred_labels">^ca_objects.preferred_labels (^ca_objects.idno)</ifdef>]]></setting>
+            <setting name="restrict_to_relationship_types"><![CDATA[manufacturer]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
+            <setting name="remove_first_items"><![CDATA[0]]></setting>
+            <setting name="hierarchy_order"><![CDATA[ASC]]></setting>
+            <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
+            <setting name="show_hierarchy"><![CDATA[0]]></setting>
           </settings>
         </placement>
         <placement code="ca_entities_related">
@@ -15586,10 +15697,11 @@
             <setting name="hierarchical_delimiter"><![CDATA[ ➔ ]]></setting>
             <setting name="label" locale="en_US"/>
             <setting name="format"><![CDATA[]]></setting>
-            <setting name="delimiter"><![CDATA[, ]]></setting>
+            <setting name="delimiter"><![CDATA[; ]]></setting>
             <setting name="show_hierarchy"><![CDATA[0]]></setting>
             <setting name="remove_first_items"><![CDATA[0]]></setting>
             <setting name="hierarchy_limit"><![CDATA[0]]></setting>
+            <setting name="sort"><![CDATA[]]></setting>
           </settings>
         </placement>
         <placement code="ca_entities_internal_notes">
