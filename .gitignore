@@ -20,4 +20,12 @@ setup.php
 /themes/default/css/local.css
 /themes/default/views/bundles/inspector_info.php
 /pawtucket/app/tmp/*
+/support/dennis_export/log/*
+/support/dennis_export/data/*
+/support/dennis_import/log/*
+/support/export_spreadsheets/log/*
+/support/export_spreadsheets/data/accounting/*
+/support/export_spreadsheets/data/exdev/*
+/support/export_spreadsheets/data/dennis/*
+/support/export_spreadsheets/data/restoration_conservation/*
 
