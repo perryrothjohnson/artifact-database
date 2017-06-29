@@ -9,6 +9,7 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 from shutil import copy
 
 # define 4 types of spreadsheets
+# list_of_sheet_types = ['accounting']
 list_of_sheet_types = ['accounting', 'dennis', 'exdev', 'restoration_conservation']
 
 for sheet_type in list_of_sheet_types:
@@ -26,7 +27,7 @@ for sheet_type in list_of_sheet_types:
     # read in csvfile with pandas, then sort by first four columns
     raw_data = pd.read_csv(csvfile)
     if sheet_type == 'accounting':
-        sorted_data = raw_data.sort_values(by=['Object name'])
+        sorted_data = raw_data.sort_values(by=['Supergroup', 'Object name'])
     if sheet_type == 'dennis':
         sorted_data = raw_data.sort_values(by=['Supergroup','Group','Object name','Object ID number'])
     if sheet_type == 'exdev':
@@ -56,18 +57,17 @@ for sheet_type in list_of_sheet_types:
 
     # set the column dimensions
     if sheet_type == 'accounting':
-        ws.column_dimensions["A"].width = 50.0                  # Object name
-        ws.column_dimensions["B"].width =  8.2                  # Quantity
-        ws.column_dimensions["C"].width = 34.0                  # Donor...party
-        ws.column_dimensions["D"].width = 17.0                  # Contact
+        ws.column_dimensions["A"].width = 25.0			# Supergroup
+	ws.column_dimensions["B"].width = 50.0                  # Object name
+        ws.column_dimensions["C"].width =  8.2                  # Quantity
+        ws.column_dimensions["D"].width = 34.0                  # Donor...party
         ws.column_dimensions["E"].width = 20.0                  # Transfer date
         ws.column_dimensions["F"].width = 20.0                  # Delivery date
         ws.column_dimensions["G"].width =  9.25                 # On display?
         ws.column_dimensions["H"].width = 70.0                  # Current location
-        ws.column_dimensions["I"].width = 19.14                 # Owned by/loaned to
-        ws.column_dimensions["J"].width = 15.75                 # Item value
-        ws.column_dimensions["K"].width = 14.29                 # Insurance value
-        ws.column_dimensions["L"].width = 20.0                  # Insurance method
+        ws.column_dimensions["I"].width = 15.75                 # Item value
+        ws.column_dimensions["J"].width = 14.29                 # Insurance value
+        ws.column_dimensions["K"].width = 20.0                  # Insurance method
     if sheet_type == 'dennis':
         ws.column_dimensions["A"].width = 25.0                  # Supergroup
         ws.column_dimensions["B"].width = 32.0                  # Group

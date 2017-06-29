@@ -1,5 +1,10 @@
 #!/bin/bash
+# set flags
+copy_mapping=false
+copy_exported_data=false
+
 # define 4 types of spreadsheets
+# array=( 'accounting' )
 array=( 'accounting' 'dennis' 'exdev' 'restoration_conservation' )
 
 # backup mySQL database
@@ -12,17 +17,19 @@ mysqldump -u causer -pdreU6yGKIE6VCspPv6un collectiveaccess > ~/backup/${today}_
 
 for sheet_type in ${array[@]}
 do
-    # # copy mapping file from Dropbox into server
-    # echo ''
-    # echo '...copying' $sheet_type 'mapping files from Dropbox into server'
-    # cp ~/Dropbox/${sheet_type}_spreadsheet_mapping.xlsx /var/www/html/support/export_spreadsheets/mappings
+    if $copy_mapping ; then
+        # copy mapping file from Dropbox into server
+        echo ''
+        echo '...copying' $sheet_type 'mapping files from Dropbox into server'
+        cp ~/Dropbox/perry/ca_mappings/${sheet_type}_spreadsheet_mapping.xlsx /var/www/html/support/export_spreadsheets/mappings
 
-    # # change permissions
-    # echo ''
-    # echo '...changing permissions of' $sheet_type 'mapping'
-    # cd /var/www/html/support/export_spreadsheets
-    # sudo chgrp www-data mappings/${sheet_type}_spreadsheet_mapping.xlsx
-    # sudo chmod 750 mappings/${sheet_type}_spreadsheet_mapping.xlsx
+        # change permissions
+        echo ''
+        echo '...changing permissions of' $sheet_type 'mapping'
+        cd /var/www/html/support/export_spreadsheets
+        sudo chgrp www-data mappings/${sheet_type}_spreadsheet_mapping.xlsx
+        sudo chmod 750 mappings/${sheet_type}_spreadsheet_mapping.xlsx
+    fi
 
     # load export mappings
     echo ''
@@ -36,14 +43,16 @@ do
     cd /var/www/html/support
     ./bin/caUtils export-data --file=export_spreadsheets/data/${sheet_type}/${today_short}__Artifact_Donation_and_Acquisitions__${sheet_type}.csv --mapping=export_${sheet_type}_spreadsheet --log=export_spreadsheets/log --search="*"
 
-    # # copy exported data from server into Dropbox
-    # echo ''
-    # echo '...copying' $sheet_type 'data from server into Dropbox'
-    # cp /var/www/html/support/export_spreadsheets/data/${sheet_type}/${today_short}__Artifact_Donation_and_Acquisitions__${sheet_type}.csv ~/Dropbox
+    if $copy_exported_data ; then
+        # copy exported data from server into Dropbox
+        echo ''
+        echo '...copying' $sheet_type 'data from server into Dropbox'
+        cp /var/www/html/support/export_spreadsheets/data/${sheet_type}/${today_short}__Artifact_Donation_and_Acquisitions__${sheet_type}.csv ~/Dropbox
+    fi
 done
 
 # convert all CSV files to XLSX, then copy all to Dropbox/CSC In-house/Artifact Documents/
 echo ''
 echo '...converting all CSV files to XLSX files, moving to Dropbox'
-# ~/Dropbox/csv_to_xlsx_all.py
 /var/www/html/support/scripts/csv_to_xlsx_all.py
+
