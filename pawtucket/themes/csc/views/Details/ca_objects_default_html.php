@@ -155,9 +155,35 @@
 				
 				<!-- storage locations -->
 				{{{<ifdef code="ca_storage_locations.hierarchy.preferred_labels.name"><HR><H6>Storage/museum location:</H6>
-					<unit delimiter="&nbsp;&#10141;&nbsp;">^ca_storage_locations.hierarchy.preferred_labels.name</unit><br/>
+					<!--<unit delimiter="&nbsp;&#10141;&nbsp;">^ca_storage_locations.hierarchy.preferred_labels.name</unit><br/>-->
+					<?php
+						$locs = $t_object->get('ca_storage_locations.hierarchy.preferred_labels.name', array("returnAsArray"=>true, "delimiter"=>"&nbsp;&#10141;&nbsp;"));
+						$arrlength = count($locs);
+						if ($arrlength > 1) {
+							echo "<ul>";
+							for($x=0; $x<$arrlength; $x++) {
+								echo "<li>" . $locs[$x] . "</li>";
+							}
+							echo "</ul>";
+						} else {
+							for($x=0; $x<$arrlength; $x++) {
+								echo $locs[$x] . "<br/>";
+							}
+						}
+					?>
 				</ifdef>}}}
 
+				<!-- on display? -->
+				{{{<ifdef code="ca_objects.on_display"><HR><H6>On display?:</H6>^ca_objects.on_display<br/></ifdef>}}}
+
+				<!-- intended gallery location -->
+				{{{<ifdef code="ca_objects.intended_gallery_location"><HR><H6>Phase III gallery location:</H6>^ca_objects.intended_gallery_location<br/></ifdef>}}}
+
+				<!-- intended display method -->
+				{{{<ifdef code="ca_objects.current_display_method"><HR><H6>Phase III display method:</H6>^ca_objects.current_display_method<br/></ifdef>}}}
+
+				<!-- display notes -->
+				{{{<ifdef code="ca_objects.display_notes"><HR><H6>Phase III display notes:</H6>^ca_objects.display_notes<br/></ifdef>}}}
 
 
 				<br/><HR><H5>******************** DIMENSIONS ********************</H5>
@@ -258,9 +284,49 @@
 				<!-- condition -->
 				{{{<ifdef code="ca_objects.condition"><HR><H6>Condition:</H6>^ca_objects.condition<br/></ifdef>}}}
 
+				<!-- condition report -->
+				{{{<ifdef code="ca_objects.condition_report"><HR><H6>Condition report:</H6>
+					<span class="trimText">
+					<?php
+						$names = $t_object->get(
+							'ca_objects.condition_report',
+							array("returnAsArray"=>true));
+						$links = $t_object->get(
+							'ca_objects.condition_report',
+							array("version"=>"original", "return"=>"url", "returnAsArray"=>true));
+						$arrlength = count($names);
+						for($x=0; $x<$arrlength; $x++) {
+							echo "<a href=" . $links[$x] . " target='_blank'>" . $names[$x] . "</a>";
+							echo "<br/>";
+						}
+					?>
+					</span>
+				</ifdef>}}}
+
+			
+
 				<!-- object materials -->
 				{{{<ifdef code="ca_objects.format_text"><HR><H6>Object materials:</H6>
-					<unit delimiter=", "<l>^ca_objects.format_text</l></unit>
+					<unit delimiter=", ">^ca_objects.format_text</unit>
+				</ifdef>}}}
+
+				<!-- MSDS -->
+				{{{<ifdef code="ca_objects.msds"><HR><H6>MSDS:</H6>
+					<span class="trimText">
+					<?php
+						$names = $t_object->get(
+							'ca_objects.msds',
+							array("returnAsArray"=>true));
+						$links = $t_object->get(
+							'ca_objects.msds',
+							array("version"=>"original", "return"=>"url", "returnAsArray"=>true));
+						$arrlength = count($names);
+						for($x=0; $x<$arrlength; $x++) {
+							echo "<a href=" . $links[$x] . " target='_blank'>" . $names[$x] . "</a>";
+							echo "<br/>";
+						}
+					?>
+					</span>
 				</ifdef>}}}
 
 				<!-- handling and maintenance -->
@@ -282,26 +348,55 @@
 					<span class="trimText">^ca_objects.description</span>
 				</ifdef>}}}
 
+				<!-- historical significance -->
+				{{{<ifdef code="ca_objects.historical_significance"><HR><H6>Historical significance:</H6>
+					<span class="trimText">^ca_objects.historical_significance</span>
+				</ifdef>}}}
+
+				<!-- pedigree -->
+				{{{<ifdef code="ca_objects.pedigree"><HR><H6>Pedigree:</H6>
+					<span class="trimText">^ca_objects.pedigree</span>
+				</ifdef>}}}
+
 				<!-- date of manufacture -->
 				{{{<ifdef code="ca_objects.date_manufacture"><HR><H6>Date of manufacture:</H6>^ca_objects.date_manufacture<br/></ifdef>}}}
 
+				<!-- external links -->
+				{{{<ifdef code="ca_objects.external_link"><HR><H6>External links:</H6>
+					<span class="trimText">
+					<?php
+						$names = $t_object->get(
+							'ca_objects.external_link.url_source',
+							array("returnAsArray"=>true));
+						$links = $t_object->get(
+							'ca_objects.external_link.url_entry',
+							array("returnAsArray"=>true));
+						$arrlength = count($names);
+						for($x=0; $x<$arrlength; $x++) {
+							echo "<a href=" . $links[$x] . " target='_blank'>" . $names[$x] . "</a>";
+							echo "<br/><br/>";
+						}
+					?>
+					</span>
+				</ifdef>}}}
 
 
-				<HR><H5>******************** RELATED PEOPLE AND OBJECTS ********************</H5>
+				<HR><H5>******************** RELATED PEOPLE/ORGS ********************</H5>
 
-				<!-- related people, places, and objects -->
+				<!-- related people -->
 				<hr></hr>
 					<div class="row">
 						<div class="col-sm-6">		
-							{{{<ifcount code="ca_entities" min="1" max="1"><H6>Related person</H6></ifcount>}}}
-							{{{<ifcount code="ca_entities" min="2"><H6>Related people</H6></ifcount>}}}
+							<!--
+							{{{<ifcount code="ca_entities" min="1" max="1"><H6>Related person/organization</H6></ifcount>}}}
+							{{{<ifcount code="ca_entities" min="2"><H6>Related people/organizations</H6></ifcount>}}}
+							-->
 							{{{<unit relativeTo="ca_entities" delimiter="<br/>"><l>^ca_entities.preferred_labels.displayname</l></unit>}}}
-							
+
 							<!--
 							{{{<ifcount code="ca_places" min="1" max="1"><H6>Related place</H6></ifcount>}}}
 							{{{<ifcount code="ca_places" min="2"><H6>Related places</H6></ifcount>}}}
 							{{{<unit relativeTo="ca_places" delimiter="<br/>"><l>^ca_places.preferred_labels.name</l></unit>}}}
-							-->
 							
 							{{{<ifcount code="ca_list_items" min="1" max="1"><H6>Related Term</H6></ifcount>}}}
 							{{{<ifcount code="ca_list_items" min="2"><H6>Related Terms</H6></ifcount>}}}
@@ -309,6 +404,7 @@
 							
 							{{{<ifcount code="ca_objects.LcshNames" min="1"><H6>LC Terms</H6></ifcount>}}}
 							{{{<unit delimiter="<br/>"><l>^ca_objects.LcshNames</l></unit>}}}
+							-->
 						</div><!-- end col -->				
 						<div class="col-sm-6 colBorderLeft">
 							{{{map}}}
