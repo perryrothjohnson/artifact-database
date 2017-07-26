@@ -80,18 +80,13 @@
 				<!-- supergroup -->
 				{{{<ifdef code="ca_objects.supergroup"><HR><H6>Supergroup:</H6>^ca_objects.supergroup<br/></ifdef>}}}
 
-				<!-- group -->
-				{{{<ifdef code="ca_objects.group"><HR><H6>Group:</H6>^ca_objects.group<br/></ifdef>}}}
+				<!-- installation group -->
+				{{{<ifdef code="ca_objects.install_group_var"><HR><H6>Installation group:</H6>
+					<unit delimiter="&nbsp;&#10141;&nbsp;">^ca_objects.install_group_var</unit><br/>
+				</ifdef>}}}
 
 				<!-- quantity -->
 				{{{<ifdef code="ca_objects.extent"><HR><H6>Quantity:</H6>^ca_objects.extent<br/></ifdef>}}}
-
-				<!-- administrative division -->
-				<!--{{{<ifdef code="ca_objects.administrative_division"><HR><H6>Administrative division:</H6>^ca_objects.administrative_division<br/></ifdef>}}}-->
-				<!-- category -->
-				<!--{{{<ifdef code="ca_objects.object_category"><HR><H6>Category:</H6>^ca_objects.object_category<br/></ifdef>}}}-->
-				<!-- classification -->
-				<!--{{{<ifdef code="ca_objects.item_classification"><HR><H6>Classification:</H6>^ca_objects.item_classification<br/></ifdef>}}}-->
 
 				<!-- alternate object names -->
 				{{{<ifdef code="ca_objects.alternate_object_names"><HR><H6>Alternate object names:</H6>
@@ -122,6 +117,15 @@
 					</span>
 				</ifdef>}}}
 
+				<!-- group -->
+				{{{<ifdef code="ca_objects.group"><HR><H6>Group [DEPRECATED]:</H6>^ca_objects.group<br/></ifdef>}}}
+
+				<!-- administrative division -->
+				{{{<ifdef code="ca_objects.administrative_division"><HR><H6>Administrative division:</H6>^ca_objects.administrative_division<br/></ifdef>}}}
+				<!-- category -->
+				{{{<ifdef code="ca_objects.object_category"><HR><H6>Category:</H6>^ca_objects.object_category<br/></ifdef>}}}
+				<!-- classification -->
+				{{{<ifdef code="ca_objects.item_classification"><HR><H6>Classification:</H6>^ca_objects.item_classification<br/></ifdef>}}}
 
 				
 				<br/><HR><H5>*********************** ID NUMBERS ***********************</H5>
