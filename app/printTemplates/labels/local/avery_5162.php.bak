@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/printTemplates/labels/avery_8164.php
+ * app/printTemplates/labels/avery_5162.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -26,38 +26,38 @@
  * -=-=-=-=-=- CUT HERE -=-=-=-=-=-
  * Template configuration:
  *
- * @name Avery 8164
+ * @name Avery 5162
  * @type label
  * @pageSize letter
  * @pageOrientation portrait
  * @tables ca_objects
  * @marginLeft 0.125in
  * @marginRight 0.125in
- * @marginTop 0.25in
- * @marginBottom 0.25in
+ * @marginTop 0.8125in
+ * @marginBottom 0.8125in
  * @horizontalGutter 0in
- * @verticalGutter 0.25in
+ * @verticalGutter 0.1875in
  * @labelWidth 4in
- * @labelHeight 3.375in
+ * @labelHeight 1.3333in
  * 
  * ----------------------------------------------------------------------
  */
  
  	$vo_result = $this->getVar('result');	
  ?>
- <div class="titleText" style="position: absolute; left: 0.125in; top: 0.125in; width: 1.75in; height: 0.2in; overflow: hidden;">
- 	{{{<ifdef code="ca_objects.idno">(^ca_objects.idno)</ifdef>}}}
+ <div class="bodyText" style="position: absolute; left: 0.125in; top: 0.125in; width: 4.0in; height: 0.2in;">
+ 	{{{^ca_objects.preferred_labels.name}}}
  </div>
 
- <div class="bodyText" style="position: absolute; left: 0.125in; top: 0.35in; width: 4.0in; height: 0.2in;">
- 	{{{^ca_objects.preferred_labels.name</ifdef>}}}
+ <div class="titleText" style="position: absolute; left: 0.125in; top: 0.27in; width: 3.75in; height: 0.2in; overflow: hidden;">
+ 	{{{(^ca_objects.idno)}}}
  </div>
 
- <div class="thumbnail" style="position: absolute; left: 0.125in; top: 0.7in; width: 2in;">
+ <div class="barcode" style="position: absolute; left: 0.08in; top: 0.5in; width: 1in; height: 1in;">
+ 	{{{barcode:qrcode:2:^ca_objects.idno}}}
+ </div>
+
+ <div class="thumbnail" style="position: absolute; left: 2.5in; top: 0.3in; width: 1.5in;">
  	<?php print $vo_result->get('ca_object_representations.media.thumbnail'); ?>
- </div>
- 
- <div class="barcode" style="position: absolute; left: 2in; top: 0.6in; width: 1.5in; height: 1.5in;">
- 	{{{barcode:qrcode:3:^ca_objects.idno}}}
  </div>
  

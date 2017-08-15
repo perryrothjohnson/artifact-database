@@ -50,7 +50,7 @@
  </div>
 
  <div class="bodyText" style="position: absolute; left: 0.125in; top: 0.35in; width: 4.0in; height: 0.2in;">
- 	{{{^ca_objects.preferred_labels.name</ifdef>}}}
+ 	{{{^ca_objects.preferred_labels.name}}}
  </div>
 
  <div class="thumbnail" style="position: absolute; left: 0.125in; top: 0.7in; width: 2in;">
