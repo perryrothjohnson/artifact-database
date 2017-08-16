@@ -26,7 +26,7 @@
  * -=-=-=-=-=- CUT HERE -=-=-=-=-=-
  * Template configuration:
  *
- * @name Avery 5162
+ * @name Avery 5162 1/2 ID tags
  * @type label
  * @pageSize letter
  * @pageOrientation portrait
@@ -37,7 +37,7 @@
  * @marginBottom 0.8125in
  * @horizontalGutter 0in
  * @verticalGutter 0.1875in
- * @labelWidth 4in
+ * @labelWidth 1.90625in
  * @labelHeight 1.3333in
  * 
  * ----------------------------------------------------------------------
@@ -45,19 +45,19 @@
  
  	$vo_result = $this->getVar('result');	
  ?>
- <div class="bodyText" style="position: absolute; left: 0.125in; top: 0.125in; width: 4.0in; height: 0.2in;">
+ <div class="smallText" style="position: absolute; left: 0.125in; top: 0.125in; width: 1.65625in; height: 0.1in; overflow: hidden;">
  	{{{^ca_objects.preferred_labels.name}}}
  </div>
 
- <div class="titleText" style="position: absolute; left: 0.125in; top: 0.27in; width: 3.75in; height: 0.2in; overflow: hidden;">
- 	{{{(^ca_objects.idno)}}}
+ <div class="titleText" style="position: absolute; left: 0.125in; top: 0.25in; width: 1.65625in; height: 0.2in; overflow: hidden;">
+ 	{{{^ca_objects.idno}}}
  </div>
 
- <div class="barcode" style="position: absolute; left: 0.08in; top: 0.5in; width: 1in; height: 1in;">
+ <div class="barcode" style="position: absolute; left: 0.07in; top: 0.4in; width: 0.828125in; height: 1in;">
  	{{{barcode:qrcode:2:^ca_objects.idno}}}
  </div>
 
- <div class="thumbnail" style="position: absolute; left: 2.5in; top: 0.3in; width: 1.5in;">
- 	<?php print $vo_result->get('ca_object_representations.media.thumbnail'); ?>
+ <div class="imageTiny" style="position: absolute; left: 0.9in; top: 0.47in; width: 1in; height: 0.7in; overflow: hidden;">
+ 	<?php print $vo_result->get('ca_object_representations.media.tiny'); ?>
  </div>
  
