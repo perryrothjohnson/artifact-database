@@ -58,6 +58,9 @@
 	<?php print AssetLoadManager::getLoadHTML($this->request); ?>
 
 	<title><?php print (MetaTagManager::getWindowTitle()) ? MetaTagManager::getWindowTitle() : $this->request->config->get("app_display_name"); ?></title>
+
+	<link href="<?php print $this->request->getThemeUrlPath(); ?>/assets/pawtucket/css/favicon.ico" rel="icon" type="image/x-icon" />
+	<link href="<?php print $this->request->getThemeUrlPath(); ?>/assets/pawtucket/css/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
