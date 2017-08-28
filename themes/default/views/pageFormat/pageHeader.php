@@ -48,6 +48,9 @@
 
 		<title><?php print $this->appconfig->get("window_title").($vs_window_title ? " : {$vs_window_title}" : ''); ?></title>
 
+		<link href="<?php print $this->request->getThemeUrlPath(); ?>/css/favicon.ico" rel="icon" type="image/x-icon" />
+		<link href="<?php print $this->request->getThemeUrlPath(); ?>/css/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
 		<script type="text/javascript">window.caBasePath = '<?php print $this->request->getBaseUrlPath(); ?>';</script>
 <?php
 	print AssetLoadManager::getLoadHTML($this->request);

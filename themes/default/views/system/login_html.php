@@ -35,6 +35,9 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		
 		<link href="<?php print $this->request->getThemeUrlPath(); ?>/css/login.css" rel="stylesheet" type="text/css" />
+		<link href="<?php print $this->request->getThemeUrlPath(); ?>/css/favicon.ico" rel="icon" type="image/x-icon" />
+		<link href="<?php print $this->request->getThemeUrlPath(); ?>/css/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
 <?php
 	print AssetLoadManager::getLoadHTML($this->request);
 ?>
